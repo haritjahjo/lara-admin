@@ -8,11 +8,11 @@
     <div class="py-6 m-6">
 
             <div class="w-full m-4">
-                @role('writer|admin')
-                    <a href="#" class="m-2 p-2 bg-green-400 rounded">
+                @can('write posts')
+                    <a href="{{ route('posts.create')}}" class="m-2 p-2 bg-green-400 rounded">
                         Create New Post
                     </a>
-                @endrole
+                @endcan
             </div>
         <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
             
@@ -33,8 +33,14 @@
                         <td class="px-6 py-4 whitespace-nowrap">{{ $post->id}}</td>
                         <td class="px-6 py-4 whitespace-nowrap">{{ $post->title}}</td>
                         <td class="px-6 py-4 text-right text-sm">
-                            <a href="#" class="m-2 p-2 bg-green-400 rounded ">Edit</a>
+                        @can('edit posts')
+                            <a href="{{ route('posts.edit', $post->id)}}" class="m-2 p-2 bg-green-400 rounded ">Edit</a>
+                        @endcan
+                        
+                        @can('publish posts')
                             <a href="#" class="m-2 p-2 bg-green-600 rounded ">Publish</a>
+                        @endcan
+                            
                         </td>
                     </tr>
                     @endforeach

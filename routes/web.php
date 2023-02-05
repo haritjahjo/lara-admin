@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use Spatie\Permission\Models\Role;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,3 +31,13 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+// Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create')->middleware('permission:write posts');
+// Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit')->middleware('permission:edit posts');
+
+Route::group(['middleware' => ['permission:write posts']], function () {
+    Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');    
+});
+Route::group(['middleware' => ['permission:edit posts']], function () {    
+    Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
+});
