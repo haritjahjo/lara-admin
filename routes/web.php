@@ -34,7 +34,7 @@ require __DIR__.'/auth.php';
 
 // Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create')->middleware('permission:write posts');
 // Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit')->middleware('permission:edit posts');
-
+Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
 Route::group(['middleware' => ['permission:write posts']], function () {
     Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');    
 });
