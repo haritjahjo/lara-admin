@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\StoryController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Role;
 
@@ -34,10 +36,21 @@ require __DIR__.'/auth.php';
 
 // Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create')->middleware('permission:write posts');
 // Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit')->middleware('permission:edit posts');
-Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
+Route::resource('/posts', PostController::class);
 Route::group(['middleware' => ['permission:write posts']], function () {
     Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');    
 });
 Route::group(['middleware' => ['permission:edit posts']], function () {    
     Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
 });
+
+/* Route::prefix('admin')->name('admin.')->group(function(){
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::get('/users/{id?}', [UserController::class, 'show'])->name('users.show');
+    Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
+}); */
+
+Route::resource('/admin/users', UserController::class)->middleware('auth');
+
+Route::resource('/stories', StoryController::class)->middleware('auth');
+
