@@ -13,11 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('stories', function (Blueprint $table) {
-            $table->id();
-            $table->string('title');
-            $table->string('image');
-            $table->timestamps();
+        Schema::create('story_tag', function (Blueprint $table) {
+            $table->foreignId('story_id')->constrained();
+            $table->foreignId('tag_id')->constrained();
         });
     }
 
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('stories');
+        Schema::dropIfExists('story_tag');
     }
 };

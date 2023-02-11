@@ -6,7 +6,10 @@
   </div>
   </x-slot:header>
   <div class="mx-auto max-w-7xl px-4 sm:px-6 md:px-8">
-<form method="POST" action="{{ route('stories.update', $story->id)}}" class="space-y-8 divide-y divide-gray-200">
+<form method="POST" 
+      action="{{ route('stories.update', $story->id)}}" 
+      class="space-y-8 divide-y divide-gray-200"
+      enctype="multipart/form-data">
   @csrf
   @method('PUT')
       <div class="space-y-6 sm:space-y-5">
@@ -19,6 +22,14 @@
 
             @enderror
           </div>
+          <label for="image" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">Image</label>
+            <div class="mt-1 sm:col-span-2 sm:mt-0">
+              <input type="file" name="image" id="image" autocomplete="given-name" class="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:max-w-xs sm:text-sm">
+            @error('image')
+                <span class="text-red-400 text-sm">{{ $message }}</span>
+
+            @enderror
+            </div>
         </div>
       </div>
 

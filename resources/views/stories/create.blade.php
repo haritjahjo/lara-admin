@@ -18,9 +18,10 @@
         
     @endif --}}
 
-    <form method="POST" action="{{ route('stories.store')}}" class="space-y-8 divide-y divide-gray-200">
+    <form method="POST" 
+      action="{{ route('stories.store')}}" class="space-y-8 divide-y divide-gray-200"
+      enctype="multipart/form-data">
       @csrf
-
         <div class="space-y-6 sm:space-y-5">
           <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
             <label for="title" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">Title</label>
@@ -31,7 +32,14 @@
 
             @enderror
             </div>
-            
+            <label for="image" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">Image</label>
+            <div class="mt-1 sm:col-span-2 sm:mt-0">
+              <input type="file" name="image" id="image" autocomplete="given-name" class="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:max-w-xs sm:text-sm">
+            @error('image')
+                <span class="text-red-400 text-sm">{{ $message }}</span>
+
+            @enderror
+            </div>
           </div>
 
         </div>

@@ -2,16 +2,13 @@
 
 namespace Database\Factories;
 
-use App\Models\Story;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Story>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Tag>
  */
-class StoryFactory extends Factory
+class TagFactory extends Factory
 {
-
-    protected $model = Story::class;
     /**
      * Define the model's default state.
      *
@@ -20,8 +17,7 @@ class StoryFactory extends Factory
     public function definition()
     {
         return [
-            'title' => $this->faker->sentence(5),
-            'image' => 'no image',
+            //
         ];
     }
 }

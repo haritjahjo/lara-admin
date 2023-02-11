@@ -25,6 +25,7 @@ class StoryStoreRequest extends FormRequest
     {
         return [
             'title' => ['required', 'min:3', 'max:255'] ,
+            'image' => ['required', 'image'],
         ];
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Requests\StoryStoreRequest;
 use App\Http\Requests\UpdateStoryRequest;
 use App\Models\Story;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class StoryController extends Controller
 {
@@ -54,7 +55,9 @@ class StoryController extends Controller
         /* $validatedData = $request->validate([
             'title' => ['required', 'min:3', 'max:255'] ,
         ]); */
-         Story::create($request->validated());
+        $validatedData = $request->validated();
+        $validatedData['image'] = $request->file('image')->store('stories');
+        Story::create($validatedData);
 
         return to_route('stories.index')->with('status', 'Story is added successfully');
 
@@ -94,8 +97,15 @@ class StoryController extends Controller
      */
     public function update(UpdateStoryRequest $request, Story $story)
     {   
+        if($request->hasFile('image')){
+            Storage::delete($story->image);
+            $story->image = $request->file('image')->store('stories');
+        }
+
+        $story->update($request->validated() + [
+            'image' => $story->image,
+        ]);
         
-        $story->update($request->validated());
         //dd($story);
         return to_route('stories.index')->with('status', 'Story is updated successfully');
     }
@@ -108,6 +118,7 @@ class StoryController extends Controller
      */
     public function destroy(Story $story)
     {
+        Storage::delete($story->image);
         $story->delete();
 
         return back()->with('status', 'Story is deleted successfully');
