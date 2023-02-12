@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class PostResource extends JsonResource
+class TagResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,11 +14,13 @@ class PostResource extends JsonResource
      */
     public function toArray($request)
     {
-        //return parent::toArray($request);
         return [
-            'post_id' => $this->id,
-            'title' => $this->title,
-            'is_published' => $this->is_published? 'Published' : 'Not Published',
+            'tag_id' => $this->id,
+            'name' => $this->name,
+            'created' => (string) $this->created_at,
+            'url' => route('api.tags.show', $this->id),
+            'stories' => StoryResource::collection($this->whenLoaded('stories')),
         ];
+        
     }
 }
