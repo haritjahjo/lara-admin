@@ -5,6 +5,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StoryController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
+use App\Mail\TestMail;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Role;
 
@@ -55,4 +57,8 @@ Route::resource('/admin/users', UserController::class)->middleware('auth');
 
 Route::resource('/stories', StoryController::class)->middleware('auth');
 Route::resource('/tags', TagController::class)->middleware('auth');
+
+Route::get('/contacts', function(){
+    Mail::to('test@email.com')->send(new TestMail());
+});
 
