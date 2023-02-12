@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Tag extends Model
 {
     use HasFactory;
-    protected $fillabel = ['name'];
+    protected $fillable = ['name'];
 
     public function stories()
     {

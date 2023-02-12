@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoryStoreRequest;
 use App\Http\Requests\UpdateStoryRequest;
 use App\Models\Story;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -28,7 +29,8 @@ class StoryController extends Controller
      */
     public function create()
     {
-        return view('stories.create');
+        $tags = Tag::all();
+        return view('stories.create', compact('tags'));
     }
 
     /**
@@ -55,9 +57,13 @@ class StoryController extends Controller
         /* $validatedData = $request->validate([
             'title' => ['required', 'min:3', 'max:255'] ,
         ]); */
+
         $validatedData = $request->validated();
         $validatedData['image'] = $request->file('image')->store('stories');
-        Story::create($validatedData);
+        $story = Story::create($validatedData);
+        if ($request->has('tags')){
+            $story->tags()->attach($request->tags);
+        }
 
         return to_route('stories.index')->with('status', 'Story is added successfully');
 
@@ -85,7 +91,8 @@ class StoryController extends Controller
     public function edit(Story $story)
     {
         //$story = Story::findOrFail($id);
-        return view('stories.edit', compact('story'));
+        $tags = Tag::all();
+        return view('stories.edit', compact('story', 'tags'));
     }
 
     /**
@@ -106,6 +113,7 @@ class StoryController extends Controller
             'image' => $story->image,
         ]);
         
+        $story->tags()->sync($request->tags);
         //dd($story);
         return to_route('stories.index')->with('status', 'Story is updated successfully');
     }
@@ -119,6 +127,7 @@ class StoryController extends Controller
     public function destroy(Story $story)
     {
         Storage::delete($story->image);
+        $story->tags()->detach();
         $story->delete();
 
         return back()->with('status', 'Story is deleted successfully');

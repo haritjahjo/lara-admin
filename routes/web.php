@@ -3,6 +3,7 @@
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StoryController;
+use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Role;
@@ -53,4 +54,5 @@ Route::group(['middleware' => ['permission:edit posts']], function () {
 Route::resource('/admin/users', UserController::class)->middleware('auth');
 
 Route::resource('/stories', StoryController::class)->middleware('auth');
+Route::resource('/tags', TagController::class)->middleware('auth');
 
