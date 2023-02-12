@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StoryController;
@@ -61,7 +62,8 @@ Route::resource('/admin/users', UserController::class)->middleware('auth');
 Route::resource('/stories', StoryController::class)->middleware('auth');
 Route::resource('/tags', TagController::class)->middleware('auth');
 
-Route::get('/contacts', function(){
-    Mail::to('test@email.com')->send(new TestMail());
-});
-
+// Route::get('/contacts', function(){
+//     Mail::to('test@email.com')->send(new TestMail());
+// });
+Route::get('/contact', [ContactController::class, 'show'])->name('contact.show');
+Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
