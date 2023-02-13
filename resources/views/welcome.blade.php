@@ -1,5 +1,7 @@
 <x-guest-layout>
+    <h1>Welcome</h1>
     <div class="max-w-7xl mx-auto mt-8">
+        
         <div class="grid grid-cols-2 gap-4">
             @foreach ($stories as $story)
                 
